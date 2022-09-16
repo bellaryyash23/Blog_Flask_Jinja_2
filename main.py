@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import os
 import requests
 from smtplib import SMTP
 
@@ -26,9 +27,9 @@ def contact():
         message = request.form["message"]
         connection = SMTP(host="smtp.gmail.com", port=587)
         connection.starttls()
-        connection.login(user="demo.smtp.23@gmail.com", password="Secure@007")
-        connection.sendmail(from_addr="demo.smtp.23@gmail.com",
-                            to_addrs="yash.bellary@yahoo.com",
+        connection.login(user=os.environ.get('USERNAME'), password=os.environ.get('PASSWORD'))
+        connection.sendmail(from_addr=os.environ.get('USERNAME'),
+                            to_addrs=os.environ.get('ADDR'),
                             msg="Subject: New Form Entry \n\n"
                                 f"Name: {name},\n"
                                 f"E-mail: {email},\n "
